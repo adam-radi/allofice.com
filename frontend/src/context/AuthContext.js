@@ -2,6 +2,8 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import authAPI from '../api/auth.api';
 
 const AuthContext = createContext();
+const getApiErrorMessage = (error, fallback) =>
+  error?.response?.data?.message || error?.message || fallback;
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);       // بيانات المستخدم
@@ -26,8 +28,7 @@ export const AuthProvider = ({ children }) => {
       }
       return res.data;
     } catch (err) {
-      const msg = err.response?.data?.message || err.message || 'Login failed';
-      throw new Error(msg);
+      throw new Error(getApiErrorMessage(err, 'Login failed'));
     }
   };
 
@@ -52,8 +53,7 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
 
       console.error('Register error:', error);
-      const msg = error.response?.data?.message || error.message || 'Registration failed';
-      throw new Error(msg);
+      throw new Error(getApiErrorMessage(error, 'Registration failed'));
     }
   };
 

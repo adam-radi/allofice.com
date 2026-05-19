@@ -1,53 +1,83 @@
-import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import '../styles/auth.css';
 
+const PHONE_REGEX = /^[0-9+\s()-]{8,20}$/;
+
+const sanitizePhone = (value) => value.replace(/\s+/g, ' ').trim();
+
+const getRedirectTarget = (user, from) => {
+    if (from?.pathname) {
+        return `${from.pathname}${from.search || ''}${from.hash || ''}`;
+    }
+
+    return user?.role === 'admin' ? '/admin/dashboard' : '/';
+};
+
 const Login = () => {
     const navigate = useNavigate();
-    const { login } = useAuth();
+    const location = useLocation();
+    const { login, user, isAuthenticated, loading: authLoading } = useAuth();
     const [formData, setFormData] = useState({ phone: '', password: '' });
-    const [loading, setLoading] = useState(false);
+    const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState('');
+
+    const from = location.state?.from;
+    const redirectTarget = useMemo(
+        () => getRedirectTarget(user, from),
+        [user, from]
+    );
+
+    useEffect(() => {
+        if (!authLoading && isAuthenticated) {
+            navigate(redirectTarget, { replace: true });
+        }
+    }, [authLoading, isAuthenticated, navigate, redirectTarget]);
+
+    const validateForm = () => {
+        const phone = sanitizePhone(formData.phone);
+        const password = formData.password.trim();
+
+        if (!phone || !password) {
+            return 'Please fill in both phone number and password.';
+        }
+
+        if (!PHONE_REGEX.test(phone)) {
+            return 'Please enter a valid phone number.';
+        }
+
+        if (password.length < 6) {
+            return 'Password must be at least 6 characters.';
+        }
+
+        return '';
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
+        if (error) setError('');
+        setFormData((prev) => ({ ...prev, [name]: value }));
     };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
-        setLoading(true);
 
-        // ===== Frontend validation =====
-        if (!formData.phone || !formData.password) {
-            setError('Please fill in all required fields.');
-            setLoading(false);
+        const validationError = validateForm();
+        if (validationError) {
+            setError(validationError);
             return;
         }
 
-        // ===== Backend login =====
+        setSubmitting(true);
         try {
-            await login(formData.phone, formData.password);
-            navigate('/'); // redirect only if login succeeded
+            const result = await login(sanitizePhone(formData.phone), formData.password);
+            navigate(getRedirectTarget(result?.data, from), { replace: true });
         } catch (err) {
-            const msg = err.response?.data?.message || err.message || 'Login failed';
-            setError(msg);
+            setError(err.message || 'Login failed');
         } finally {
-            setLoading(false);
-        }
-
-
-        // ===== Backend login =====
-        try {
-            await login(formData.phone, formData.password);
-            navigate('/'); // redirect only if login succeeded
-        } catch (err) {
-            // show proper error
-            const msg = err.response?.data?.message || err.message || 'Login failed';
-            setError(msg);
-        } finally {
-            setLoading(false); // 🔹 always stop loading
+            setSubmitting(false);
         }
     };
 
@@ -60,15 +90,15 @@ const Login = () => {
                     {error && <div className="error-msg">{error}</div>}
 
                     <form onSubmit={handleSubmit} className="auth-form">
-
                         <div className="form-group">
                             <label>Phone Number</label>
                             <input
-                                type="text"
+                                type="tel"
                                 name="phone"
                                 placeholder="Enter your phone"
                                 value={formData.phone}
                                 onChange={handleChange}
+                                autoComplete="tel"
                                 required
                             />
                         </div>
@@ -81,27 +111,26 @@ const Login = () => {
                                 placeholder="Enter your password"
                                 value={formData.password}
                                 onChange={handleChange}
+                                autoComplete="current-password"
                                 required
                             />
                         </div>
 
                         <button
                             type="submit"
-                            className="btn  auth-btn"
-                            disabled={loading}
+                            className="btn auth-btn"
+                            disabled={submitting || authLoading}
                         >
-                            {loading ? 'Logging in...' : 'Login'}
+                            {submitting ? 'Logging in...' : 'Login'}
                         </button>
                     </form>
+
                     <p className="auth-link">
-                        <Link to="/forgot-password"> Mot de passe oublie</Link>
+                        <Link to="/forgot-password">Mot de passe oublie</Link>
                     </p>
                     <p className="auth-link">
                         Don't have an account? <Link to="/register">Register here</Link>
                     </p>
-
-                    {/* Optional demo info */}
-
                 </div>
             </div>
         </main>
