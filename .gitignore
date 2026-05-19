@@ -1,0 +1,36 @@
+# Operating system and editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Dependency and build output
+frontend/node_modules/
+frontend/build/
+frontend/coverage/
+frontend/.cache/
+
+# Local environment files
+.env
+.env.*
+!.env.example
+frontend/.env
+frontend/.env.*
+!frontend/.env.example
+backend/.env
+backend/.env.*
+!backend/.env.example
+
+# Runtime uploads and generated assets
+uploads/
+backend/uploads/
+
+# Logs and temporary debug artifacts
+*.log
+*.tmp
+backend/apidebug.txt
+backend/api/debug.txt
+backend/api/orders_debug.log
+
+# Local Git migration backup
+.repo-backups/
