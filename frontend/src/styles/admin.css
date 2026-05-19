@@ -1,0 +1,815 @@
+/* ===========================
+   ALLOFFICE Admin UI (Clean)
+   No JSX changes required ✅
+   =========================== */
+
+:root {
+  --primary: #40B4F2;
+  --primary-hover: #2AA3E6;
+
+  --black: #0B0B0B;
+  --white: #FFFFFF;
+
+  --bg: #F6F8FB;
+  --panel: #FFFFFF;
+  --panel-2: #FAFBFD;
+
+  --text: #0B0B0B;
+  --text-soft: #6B7280;
+
+  --border: #E7ECF2;
+  --shadow: 0 10px 30px rgba(11, 11, 11, .08);
+
+  --danger: #E91E63;
+  --success: #22C55E;
+  --warning: #F6C700;
+}
+
+/* base */
+* {
+  box-sizing: border-box;
+  scroll-behavior: smooth !important;
+}
+
+html,
+body {
+  scroll-behavior: smooth !important;
+  scroll-margin-top: 0 !important;
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  color: var(--text);
+  background: var(--bg);
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+/* Container compatibility (bootstrap-ish) */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 14px;
+}
+
+/* ===========================
+   Page Layout
+   =========================== */
+.admin-page {
+  padding: 22px 0 46px;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.admin-shell {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 14px;
+}
+
+/* ===========================
+   Header (CategoriesAdmin uses this)
+   =========================== */
+.admin-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.admin-title {
+  margin: 0;
+  font-size: 28px;
+  letter-spacing: -.3px;
+}
+
+.admin-sub {
+  margin: 6px 0 0;
+  font-size: 13px;
+  color: var(--text-soft);
+}
+
+.admin-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* Search */
+.admin-search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 10px 12px;
+  min-width: 260px;
+  box-shadow: 0 6px 18px rgba(11, 11, 11, .04);
+}
+
+.admin-search i {
+  color: var(--text-soft);
+}
+
+.admin-search input {
+  border: none;
+  outline: none;
+  width: 100%;
+  background: transparent;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.admin-search input::placeholder {
+  color: rgba(107, 114, 128, .9);
+}
+
+/* ===========================
+   Cardbox / Panels
+   =========================== */
+.admin-cardbox {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.admin-card-hd {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  background: linear-gradient(180deg, var(--panel), var(--panel-2));
+}
+
+.admin-card-hd h2 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 900;
+}
+
+.admin-card-bd {
+  padding: 14px 16px;
+}
+
+/* ===========================
+   Dashboard (AdminDashboard)
+   It uses .admin-grid + .admin-card
+   =========================== */
+.admin-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-top: 14px;
+}
+
+/* support both names: admin-card + admin-tile */
+.admin-card,
+.admin-tile {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 16px;
+  box-shadow: var(--shadow);
+  transition: .15s ease;
+}
+
+.admin-card:hover,
+.admin-tile:hover {
+  transform: translateY(-2px);
+  border-color: rgba(64, 180, 242, .55);
+  box-shadow: 0 14px 38px rgba(11, 11, 11, .10);
+}
+
+.admin-card i,
+.admin-tile i {
+  font-size: 18px;
+  color: var(--primary);
+}
+
+.admin-card h3,
+.admin-tile h3 {
+  margin: 10px 0 6px;
+  font-size: 16px;
+  font-weight: 900;
+}
+
+.admin-card p,
+.admin-tile p {
+  margin: 0 0 12px;
+  font-size: 13px;
+  color: var(--text-soft);
+  line-height: 1.5;
+}
+
+/* ===========================
+   Buttons
+   - Your code uses: .a-btn ... AND .btn btn-primary etc
+   =========================== */
+.a-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  font-weight: 900;
+  text-decoration: none;
+  transition: .15s ease;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.a-btn:disabled {
+  opacity: .65;
+  cursor: not-allowed;
+}
+
+.a-btn-primary {
+  background: var(--primary);
+  color: var(--black);
+}
+
+.a-btn-primary:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+.a-btn-soft {
+  background: var(--panel-2);
+  color: var(--text);
+  border-color: var(--border);
+}
+
+.a-btn-soft:hover {
+  border-color: rgba(64, 180, 242, .55);
+  transform: translateY(-1px);
+}
+
+.a-btn-danger {
+  background: var(--danger);
+  color: var(--white);
+}
+
+.a-btn-danger:hover {
+  filter: brightness(.96);
+  transform: translateY(-1px);
+}
+
+.a-btn-success {
+  background: var(--success);
+  color: var(--black);
+}
+
+.a-btn-success:hover {
+  filter: brightness(.98);
+  transform: translateY(-1px);
+}
+
+.a-btn-sm {
+  padding: 8px 10px;
+  border-radius: 12px;
+  font-weight: 900;
+  font-size: 12px;
+}
+
+/* Bootstrap-like buttons used in some pages */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  font-weight: 900;
+  text-decoration: none;
+  transition: .15s ease;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.btn-small {
+  padding: 8px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: var(--black);
+}
+
+.btn-primary:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+.btn-success {
+  background: var(--success);
+  color: var(--black);
+}
+
+.btn-success:hover {
+  filter: brightness(.98);
+  transform: translateY(-1px);
+}
+
+.btn-danger {
+  background: var(--danger);
+  color: var(--white);
+}
+
+.btn-danger:hover {
+  filter: brightness(.96);
+  transform: translateY(-1px);
+}
+
+.btn:disabled {
+  opacity: .65;
+  cursor: not-allowed;
+}
+
+/* ===========================
+   Tables
+   =========================== */
+.admin-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: var(--panel);
+}
+
+.admin-table thead th {
+  text-align: left;
+  font-size: 12px;
+  color: var(--text-soft);
+  font-weight: 900;
+  padding: 12px 12px;
+  border-bottom: 1px solid var(--border);
+  background: linear-gradient(180deg, #FFFFFF, #F7F9FC);
+}
+
+.admin-table tbody td {
+  padding: 12px 12px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+  font-weight: 650;
+}
+
+.admin-table tbody tr:hover {
+  background: #F8FAFD;
+}
+
+.admin-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Actions in table */
+.admin-actions-cell,
+.row-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+/* ===========================
+   Badges
+   =========================== */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-weight: 900;
+  font-size: 12px;
+  background: var(--panel-2);
+  color: var(--text);
+}
+
+/* Order status usage: badge badge-pending/confirmed/cancelled */
+.badge-pending {
+  border-color: rgba(246, 199, 0, .45);
+  background: rgba(246, 199, 0, .12);
+}
+
+.badge-confirmed {
+  border-color: rgba(34, 197, 94, .45);
+  background: rgba(34, 197, 94, .12);
+}
+
+.badge-cancelled {
+  border-color: rgba(233, 30, 99, .45);
+  background: rgba(233, 30, 99, .10);
+}
+
+/* ===========================
+   Forms
+   =========================== */
+.admin-form {
+  display: grid;
+  gap: 12px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 12px;
+  font-weight: 900;
+  margin-bottom: 6px;
+  color: var(--text) !important;
+}
+
+.admin-form.form-group input,
+.admin-form.form-group select,
+.admin-form.form-group textarea {
+  width: 100% !important;
+  padding: 12px 12px !important;
+  border-radius: 14px !important;
+  border: 1px solid var(--border) !important;
+  outline: none !important;
+  background: var(--panel) !important;
+  font-weight: 650 !important;
+}
+
+.form-group textarea {
+  min-height: 96px;
+  resize: vertical;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: rgba(64, 180, 242, .7);
+  box-shadow: 0 0 0 4px rgba(64, 180, 242, .18);
+}
+
+/* ===========================
+   Loading / Error blocks (used in many pages)
+   =========================== */
+.loading,
+.admin-loading {
+  padding: 14px;
+  color: var(--text-soft);
+  font-weight: 800;
+}
+
+.error,
+.admin-error {
+  padding: 14px;
+  border: 1px solid rgba(233, 30, 99, .35);
+  background: rgba(233, 30, 99, .08);
+  border-radius: 16px;
+  color: var(--text);
+  font-weight: 800;
+}
+
+/* ===========================
+   Modal
+   =========================== */
+.admin-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, .55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px;
+  z-index: 9999;
+  backdrop-filter: blur(2px);
+}
+
+.admin-modal {
+  width: min(920px, 100%);
+  background: var(--panel);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 18px 60px rgba(0, 0, 0, .28);
+  border: 1px solid rgba(255, 255, 255, .25);
+}
+
+.admin-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  background: linear-gradient(180deg, #FFFFFF, #F4F7FB);
+}
+
+.admin-modal-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 950;
+}
+
+.admin-modal-close {
+  border: 1px solid var(--border);
+  background: var(--panel);
+  border-radius: 12px;
+  padding: 8px 10px;
+  cursor: pointer;
+}
+
+.admin-modal-body {
+  padding: 14px;
+}
+
+/* ===========================
+   Details grid (Products/Orders/Offers/Categories details)
+   =========================== */
+.details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.details-box {
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 12px;
+  background: var(--panel);
+  box-shadow: 0 8px 20px rgba(11, 11, 11, .04);
+}
+
+.details-box h4 {
+  margin: 0 0 10px;
+  font-size: 14px;
+  font-weight: 950;
+}
+
+.details-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px dashed #E9EEF5;
+  font-size: 13px;
+  align-items: center;
+}
+
+.details-row b {
+  font-weight: 950;
+}
+
+.details-row:last-child {
+  border-bottom: none;
+}
+
+.details-images {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.details-images img {
+  width: 100%;
+  height: 78px;
+  object-fit: cover;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  box-shadow: 0 6px 16px rgba(11, 11, 11, .06);
+}
+
+/* ===========================
+   Statistics Page (look like dashboard)
+   JSX is simple, so we style it smartly ✅
+   =========================== */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin: 14px 0 14px;
+}
+
+.stat-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 16px;
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card::after {
+  content: "";
+  position: absolute;
+  inset: auto -40px -40px auto;
+  width: 140px;
+  height: 140px;
+  background: rgba(64, 180, 242, .12);
+  border-radius: 999px;
+  filter: blur(1px);
+}
+
+.stat-card h3 {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-soft);
+  font-weight: 950;
+  text-transform: none;
+  letter-spacing: .2px;
+}
+
+.stat-value {
+  margin: 10px 0 0;
+  font-size: 28px;
+  font-weight: 1000;
+  letter-spacing: -.3px;
+}
+
+/* Sections become “cards” like screenshot */
+.stats-section {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 14px 16px;
+  box-shadow: var(--shadow);
+  margin-top: 14px;
+}
+
+.stats-section h2 {
+  margin: 0 0 12px;
+  font-size: 16px;
+  font-weight: 1000;
+}
+
+/* Make Statistics sections look like a dashboard layout on desktop */
+@media (min-width: 1000px) {
+
+  /* wrap all sections in a nice grid feeling */
+  .stats-section {
+    margin-top: 0;
+  }
+
+  /* when multiple stats-section exist, create spacing */
+  main.container.admin-page .stats-section+.stats-section {
+    margin-top: 14px;
+  }
+}
+
+/* Tables inside statistics */
+.stats-section .admin-table {
+  border-radius: 16px;
+}
+
+/* ===========================
+   Responsive
+   =========================== */
+@media (max-width: 1100px) {
+  .admin-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 780px) {
+  .details-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .details-images {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .admin-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .admin-search {
+    min-width: 100%;
+  }
+}
+
+@media (max-width: 560px) {
+  .admin-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===========================
+   FIX: Center all admin pages
+   (works with: <main className="container admin-page">)
+   =========================== */
+
+/* ⚠️ حيد أي style كيخلي container 100% إذا كان عندك */
+.container.admin-page {
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  padding: 0 14px !important;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 14px;
+}
+
+/* admin page global spacing */
+.admin-page {
+  background: var(--bg);
+  padding: 24px 0 46px !important;
+}
+
+/* ✅ هادي هي الأهم: كتخلي المحتوى فالنص وماشي full */
+.container.admin-page {
+  max-width: 1200px !important;
+  margin: 10px auto !important;
+  padding-left: 14px !important;
+  padding-right: 14px !important;
+  margin-bottom: 30px !important;
+}
+
+.admin-grid {
+  margin: 30px !important;
+  margin-bottom: 45px !important;
+}
+
+/* headings spacing */
+.container.admin-page>h1 {
+  margin: 0 0 14px !important;
+  font-size: 28px;
+  font-weight: 950;
+  letter-spacing: -.3px;
+}
+
+/* stats page blocks spacing */
+.stats-grid {
+  margin: 14px 0 !important;
+}
+
+.stats-section {
+  margin-top: 14px !important;
+}
+
+/* ✅ إذا شي page ماعندهاش admin-shell، نعطيهم نفس الإحساس */
+/* ===== Modal Fix ===== */
+.admin-modal-backdrop {
+  z-index: 999999 !important;
+  padding: 22px !important;
+}
+
+.admin-modal {
+  width: min(760px, 100%) !important;
+  max-height: 90vh !important;
+  overflow: hidden !important;
+}
+
+.admin-modal-body {
+  max-height: calc(90vh - 60px) !important;
+  overflow: auto !important;
+  padding: 16px !important;
+}
+
+/* form inside modal => looks clean */
+.admin-modal .admin-form {
+  display: grid;
+  gap: 12px;
+}
+
+.admin-modal .form-group input,
+.admin-modal .form-group select,
+.admin-modal .form-group textarea {
+  background: #fff;
+}
+
+/* small screens */
+@media (max-width: 560px) {
+  .admin-modal {
+    width: 100% !important;
+  }
+}
